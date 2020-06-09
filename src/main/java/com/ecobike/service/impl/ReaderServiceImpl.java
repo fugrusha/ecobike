@@ -1,6 +1,10 @@
-package com.ecobike.service;
+package com.ecobike.service.impl;
 
+import com.ecobike.app.DataCache;
+import com.ecobike.app.ObjectFactory;
+import com.ecobike.cache.DataCacheImpl;
 import com.ecobike.domain.*;
+import com.ecobike.service.ReaderService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,14 +12,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 
-public class Reader {
+public class ReaderServiceImpl implements ReaderService {
 
+    private DataCache<UUID> dataCache = ObjectFactory.getInstance().createObject(DataCacheImpl.class);
+
+    @Override
     public void readFile(Path filePath) {
-
-        List<Bicycle> bikes = new ArrayList<>();
 
         try (InputStream in = Files.newInputStream(filePath);
              BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
@@ -24,15 +28,14 @@ public class Reader {
             while ((line = reader.readLine()) != null) {
                 Bicycle bike = parseString(line);
                 if (bike != null) {
-                    bikes.add(bike);
+                    dataCache.add(bike.getId(), bike);
                 }
             }
-        } catch (IOException x) {
-            System.err.println(x);
+        } catch (IOException ex) {
+            System.err.println(ex);
         }
 
-        System.out.println();
-        System.out.println("Size of the list: " + bikes.size());
+        System.out.println(dataCache + " from reader");
     }
 
     private Bicycle parseString(String inputString) {
@@ -57,7 +60,8 @@ public class Reader {
         String brandName = arr[0].replace(BicycleType.SPEEDELEC.getValue(), "").trim();
 
         Speedelec bike = new Speedelec();
-        bike.setType(BicycleType.E_BIKE);
+        bike.setId(UUID.randomUUID());
+        bike.setType(BicycleType.SPEEDELEC);
         bike.setBrand(brandName);
         bike.setMaxSpeed(Integer.parseInt(arr[1]));
         bike.setWeight(Integer.parseInt(arr[2]));
@@ -67,13 +71,13 @@ public class Reader {
         bike.setPrice(Integer.parseInt(arr[6]));
 
         return bike;
-
     }
 
     private Bicycle createEBike(String[] arr) {
         String brandName = arr[0].replace(BicycleType.E_BIKE.getValue(), "").trim();
 
         Ebike bike = new Ebike();
+        bike.setId(UUID.randomUUID());
         bike.setType(BicycleType.E_BIKE);
         bike.setBrand(brandName);
         bike.setMaxSpeed(Integer.parseInt(arr[1]));
@@ -90,6 +94,7 @@ public class Reader {
         String brandName = arr[0].replace(BicycleType.FOLDING_BIKE.getValue(), "").trim();
 
         FoldingBike bike = new FoldingBike();
+        bike.setId(UUID.randomUUID());
         bike.setType(BicycleType.FOLDING_BIKE);
         bike.setBrand(brandName);
         bike.setSizeOfWheels(Integer.parseInt(arr[1]));
@@ -98,6 +103,7 @@ public class Reader {
         bike.setHasLights(Boolean.parseBoolean(arr[4]));
         bike.setColor(arr[5]);
         bike.setPrice(Integer.parseInt(arr[6]));
+
         return bike;
     }
 }

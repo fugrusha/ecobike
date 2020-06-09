@@ -23,7 +23,7 @@ public class Speedelec extends Bicycle {
             sb.append("no ");
         }
         sb.append("head/tail light.\n");
-        sb.append("Price: ").append(this.getPrice()).append(" euros.");
+        sb.append("Price: ").append(this.getPrice()).append(" euros.\n");
 
         return sb.toString();
     }

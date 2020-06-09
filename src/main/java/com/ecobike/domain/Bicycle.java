@@ -3,9 +3,13 @@ package com.ecobike.domain;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 public abstract class Bicycle {
+
+    private UUID id;
 
     private BicycleType type;
 
