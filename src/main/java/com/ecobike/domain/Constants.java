@@ -1,4 +1,4 @@
-package com.ecobike.app;
+package com.ecobike.domain;
 
 public final class Constants {
 
@@ -11,12 +11,11 @@ public final class Constants {
 
     public static final String COMMAND_LIST = "You can use the following commands:\n"
             + " - /showAll - Show the entire EcoBike catalog\n"
-            + " - /show 1 - Show list of Folding Bike records\n"
-            + " - /show 2 - Show list of E-bike records\n"
-            + " - /show 3 - Show list of Speedelec records\n"
-            + " - /add - add new bike's record to list\n"
-            + " - /find - search bikes by brand\n"
-            + " - /help - list of available commands\n"
-            + " - /save - save bike records to file\n"
-            + " - /exit - close application\n" ;
+            + " - /add 1 - Add a new folding bike\n"
+            + " - /add 2 - Add a new speedelec\n"
+            + " - /add 3 - Add a new e-bike\n"
+            + " - /find - Find the first item of a particular brand\n"
+            + " - /help - List of available commands\n"
+            + " - /save - Save bike records to file\n"
+            + " - /exit - Close application\n" ;
 }

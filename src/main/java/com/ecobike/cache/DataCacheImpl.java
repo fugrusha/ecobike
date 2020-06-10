@@ -1,20 +1,27 @@
 package com.ecobike.cache;
 
-import com.ecobike.app.DataCache;
-import lombok.AllArgsConstructor;
+import com.ecobike.app.annotation.Singleton;
+import com.ecobike.domain.AppState;
+import com.ecobike.domain.Bicycle;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Enumeration;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class DataCacheImpl implements DataCache<UUID> {
+@Singleton
+public class DataCacheImpl implements DataCache<UUID, Bicycle> {
 
-    private static final ConcurrentHashMap<UUID, CacheObject> cache = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<UUID, Bicycle> cache = new ConcurrentHashMap<>();
+
+    @Setter
+    @Getter
+    private AppState state = AppState.NO_CHANGES;
 
     @Override
-    public void add(UUID key, Object value) {
+    public void add(UUID key, Bicycle value) {
         if (key == null) {
             return;
         }
@@ -22,7 +29,7 @@ public class DataCacheImpl implements DataCache<UUID> {
         if (value == null) {
             cache.remove(key);
         } else {
-            cache.put(key, new CacheObject(value));
+            cache.put(key, value);
         }
     }
 
@@ -32,9 +39,8 @@ public class DataCacheImpl implements DataCache<UUID> {
     }
 
     @Override
-    public Object get(UUID key) {
+    public Bicycle get(UUID key) {
         return Optional.ofNullable(cache.get(key))
-                .map(CacheObject::getValue)
                 .orElse(null);
     }
 
@@ -51,12 +57,5 @@ public class DataCacheImpl implements DataCache<UUID> {
     @Override
     public Enumeration<UUID> keys() {
         return cache.keys();
-    }
-
-    @AllArgsConstructor
-    private static class CacheObject {
-
-        @Getter
-        private Object value;
     }
 }

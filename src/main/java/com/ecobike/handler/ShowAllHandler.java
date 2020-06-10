@@ -1,25 +1,33 @@
 package com.ecobike.handler;
 
-import com.ecobike.app.DataCache;
-import com.ecobike.app.ObjectFactory;
+import com.ecobike.app.annotation.InjectByType;
+import com.ecobike.cache.DataCache;
+import com.ecobike.service.PrintService;
 
 import java.util.Iterator;
 import java.util.UUID;
 
 public class ShowAllHandler implements UserInputHandler {
 
-    private DataCache dataCache = ObjectFactory.getInstance().createObject(DataCache.class);
+    @InjectByType
+    private DataCache dataCache;
+
+    @InjectByType
+    private PrintService printService;
 
     @Override
     public void handle(String userInput) {
-        System.out.println("Show all handler response");
-
         Iterator iterator = dataCache.keys().asIterator();
 
+        int count = 0;
         while(iterator.hasNext()) {
             UUID key = (UUID) iterator.next();
             Object o = dataCache.get(key);
-            System.out.print(o);
+            printService.println(o);
+
+            count++;
         }
+
+        printService.println("There are " + count + " bikes in the catalog.");
     }
 }

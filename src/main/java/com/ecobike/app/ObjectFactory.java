@@ -1,29 +1,30 @@
 package com.ecobike.app;
 
-import com.ecobike.config.JavaConfig;
+import com.ecobike.app.configurator.ObjectConfigurator;
 import lombok.SneakyThrows;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ObjectFactory {
 
-    private static ObjectFactory ourInstance = new ObjectFactory();
-    private Config config = new JavaConfig("com.ecobike");
+    private final ApplicationContext context;
+    private List<ObjectConfigurator> configurators = new ArrayList<>();
 
-    public static synchronized ObjectFactory getInstance() {
-        return ourInstance;
-    }
-
-    private ObjectFactory() {
+    @SneakyThrows
+    public ObjectFactory(ApplicationContext context) {
+        this.context = context;
+        for (Class<? extends ObjectConfigurator> aClass : context.getConfig().getScanner().getSubTypesOf(ObjectConfigurator.class)) {
+            configurators.add(aClass.getDeclaredConstructor().newInstance());
+        }
     }
 
     @SneakyThrows
-    public <T> T createObject(Class<T> type) {
-        Class<? extends T> implClass = type;
-
-        if (type.isInterface()) {
-            implClass = config.getImplClass(type);
-        }
+    public <T> T createObject(Class<T> implClass) {
 
         T t = implClass.getDeclaredConstructor().newInstance();
+
+        configurators.forEach(objectConfigurator -> objectConfigurator.configure(t, context));
 
         return t;
     }

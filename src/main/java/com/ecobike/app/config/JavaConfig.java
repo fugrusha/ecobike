@@ -1,12 +1,13 @@
-package com.ecobike.config;
+package com.ecobike.app.config;
 
-import com.ecobike.app.Config;
+import lombok.Getter;
 import org.reflections.Reflections;
 
 import java.util.Set;
 
 public class JavaConfig implements Config {
 
+    @Getter
     private Reflections scanner;
 
     public JavaConfig(String packageToScan) {

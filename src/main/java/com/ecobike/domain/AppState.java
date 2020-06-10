@@ -1,4 +1,4 @@
-package com.ecobike.app;
+package com.ecobike.domain;
 
 public enum AppState {
     NO_CHANGES,

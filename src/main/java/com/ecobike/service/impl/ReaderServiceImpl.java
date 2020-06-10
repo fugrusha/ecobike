@@ -1,8 +1,8 @@
 package com.ecobike.service.impl;
 
-import com.ecobike.app.DataCache;
-import com.ecobike.app.ObjectFactory;
-import com.ecobike.cache.DataCacheImpl;
+import com.ecobike.app.annotation.InjectByType;
+import com.ecobike.app.annotation.Singleton;
+import com.ecobike.cache.DataCache;
 import com.ecobike.domain.*;
 import com.ecobike.service.ReaderService;
 
@@ -10,19 +10,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
+@Singleton
 public class ReaderServiceImpl implements ReaderService {
 
-    private DataCache<UUID> dataCache = ObjectFactory.getInstance().createObject(DataCacheImpl.class);
+    @InjectByType
+    private DataCache dataCache;
 
     @Override
     public void readFile(Path filePath) {
 
         try (InputStream in = Files.newInputStream(filePath);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+             BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
             String line = null;
 
             while ((line = reader.readLine()) != null) {
@@ -32,10 +35,8 @@ public class ReaderServiceImpl implements ReaderService {
                 }
             }
         } catch (IOException ex) {
-            System.err.println(ex);
+            System.err.println(ex.getMessage());
         }
-
-        System.out.println(dataCache + " from reader");
     }
 
     private Bicycle parseString(String inputString) {
