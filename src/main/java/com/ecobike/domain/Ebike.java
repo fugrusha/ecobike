@@ -3,6 +3,8 @@ package com.ecobike.domain;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 public class Ebike extends Bicycle {
@@ -41,5 +43,24 @@ public class Ebike extends Bicycle {
         sb.append(this.getPrice()).append("\n");
 
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Ebike ebike = (Ebike) o;
+        return maxSpeed == ebike.maxSpeed &&
+                batteryCapacity == ebike.batteryCapacity &&
+                this.getId() == ebike.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(maxSpeed, batteryCapacity, this.getId());
     }
 }

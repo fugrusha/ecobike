@@ -3,6 +3,8 @@ package com.ecobike.domain;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 public class FoldingBike extends Bicycle {
@@ -41,5 +43,24 @@ public class FoldingBike extends Bicycle {
         sb.append(this.getPrice()).append("\n");
 
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        FoldingBike bike = (FoldingBike) o;
+        return sizeOfWheels == bike.sizeOfWheels &&
+                numberOfGears == bike.numberOfGears &&
+                this.getId() == bike.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sizeOfWheels, numberOfGears, this.getId());
     }
 }

@@ -3,6 +3,8 @@ package com.ecobike.domain;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 public class Speedelec extends Bicycle {
@@ -41,5 +43,24 @@ public class Speedelec extends Bicycle {
         sb.append(this.getPrice()).append("\n");
 
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Speedelec speedelec = (Speedelec) o;
+        return maxSpeed == speedelec.maxSpeed &&
+                batteryCapacity == speedelec.batteryCapacity &&
+                this.getId() == speedelec.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(maxSpeed, batteryCapacity, this.getId());
     }
 }

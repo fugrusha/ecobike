@@ -1,8 +1,6 @@
-package com.econike.cache;
+package com.ecobike.cache;
 
 import com.ecobike.app.annotation.InjectByType;
-import com.ecobike.cache.DataCache;
-import com.ecobike.cache.DataCacheImpl;
 import com.ecobike.domain.Bicycle;
 import com.ecobike.domain.BicycleType;
 import com.ecobike.domain.Ebike;
