@@ -1,4 +1,5 @@
-import com.ecobike.EcoBikeApplication;
+package com.ecobike;
+
 import com.ecobike.app.Application;
 import com.ecobike.app.ApplicationContext;
 

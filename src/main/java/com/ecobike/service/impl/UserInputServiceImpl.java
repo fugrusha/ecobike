@@ -9,6 +9,9 @@ import com.ecobike.handler.AddSpeedelecHandler;
 import com.ecobike.handler.ShowAllHandler;
 import com.ecobike.service.PrintService;
 import com.ecobike.service.UserInputService;
+import com.ecobike.service.WriterService;
+
+import java.nio.file.Path;
 
 @Singleton
 public class UserInputServiceImpl implements UserInputService {
@@ -28,8 +31,14 @@ public class UserInputServiceImpl implements UserInputService {
     @InjectByType
     private AddSpeedelecHandler addSpeedelecHandler;
 
+    @InjectByType
+    private WriterService writerService;
+
     @Override
     public void handleUserInput(String userInput) {
+
+        String outputFile = System.getProperty("pathToFile",null);
+        Path filePath = Path.of(outputFile);
 
         switch (userInput) {
             case "/showAll":
@@ -50,6 +59,7 @@ public class UserInputServiceImpl implements UserInputService {
                 printService.println(Constants.COMMAND_LIST);
                 break;
             case "/save":
+                writerService.writeToFile(filePath);
                 printService.println("File saved!");
                 break;
             case "/exit":

@@ -27,4 +27,19 @@ public class FoldingBike extends Bicycle {
 
         return sb.toString();
     }
+
+    @Override
+    public String serialize() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.getType().getValue()).append(" ");
+        sb.append(this.getBrand()).append("; ");
+        sb.append(this.getSizeOfWheels()).append("; ");
+        sb.append(this.getNumberOfGears()).append("; ");
+        sb.append(this.getWeight()).append("; ");
+        sb.append(this.isHasLights()).append("; ");
+        sb.append(this.getColor()).append("; ");
+        sb.append(this.getPrice()).append("\n");
+
+        return sb.toString();
+    }
 }

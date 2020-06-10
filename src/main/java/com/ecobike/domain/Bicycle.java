@@ -22,4 +22,6 @@ public abstract class Bicycle {
     private String color;
 
     private int price;
+
+    public abstract String serialize();
 }

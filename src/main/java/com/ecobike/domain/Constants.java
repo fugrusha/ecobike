@@ -9,6 +9,8 @@ public final class Constants {
 
     public static final String CLOSE_APP = "~~~Application is closing~~~";
 
+    public static final String INPUT_WAITING = "I am waiting for you command:";
+
     public static final String COMMAND_LIST = "You can use the following commands:\n"
             + " - /showAll - Show the entire EcoBike catalog\n"
             + " - /add 1 - Add a new folding bike\n"

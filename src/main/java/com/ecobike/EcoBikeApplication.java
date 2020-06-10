@@ -36,12 +36,14 @@ public class EcoBikeApplication {
         printService.println(Constants.COMMAND_LIST);
 
         Scanner in = new Scanner(System.in);
-        printService.println("I am waiting for you command:");
+        printService.println(Constants.INPUT_WAITING);
 
         String userInput = in.nextLine();
 
         while (true) {
             uis.handleUserInput(userInput);
+
+            printService.println(Constants.INPUT_WAITING);
             userInput = in.nextLine();
         }
     }

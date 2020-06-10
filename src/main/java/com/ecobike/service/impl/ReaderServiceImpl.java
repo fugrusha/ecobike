@@ -19,7 +19,7 @@ import java.util.UUID;
 public class ReaderServiceImpl implements ReaderService {
 
     @InjectByType
-    private DataCache dataCache;
+    private DataCache<UUID, Bicycle> dataCache;
 
     @Override
     public void readFile(Path filePath) {
