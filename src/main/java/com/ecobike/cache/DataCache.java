@@ -1,5 +1,6 @@
 package com.ecobike.cache;
 
+import com.ecobike.app.annotation.Singleton;
 import com.ecobike.domain.AppState;
 
 import java.util.Enumeration;

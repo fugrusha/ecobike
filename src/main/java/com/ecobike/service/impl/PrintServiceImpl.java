@@ -13,6 +13,6 @@ public class PrintServiceImpl implements PrintService {
 
     @Override
     public void printf(Object msg, Object... args) {
-        System.out.printf(msg.toString() + "\n", args);
+        System.out.printf(msg.toString() + "\n\n", args);
     }
 }
