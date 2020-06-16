@@ -2,9 +2,9 @@ package com.ecobike.handler;
 
 import com.ecobike.app.annotation.InjectByType;
 import com.ecobike.cache.DataCache;
-import com.ecobike.domain.AppState;
 import com.ecobike.domain.Bicycle;
 import com.ecobike.domain.BicycleType;
+import com.ecobike.domain.CacheState;
 import com.ecobike.domain.Ebike;
 import com.ecobike.service.PrintService;
 import com.ecobike.service.ValidationService;
@@ -29,7 +29,7 @@ public class AddEBikeHandler implements UserInputHandler {
         Bicycle bike = createEBike();
 
         dataCache.add(bike.getId(), bike);
-        dataCache.setState(AppState.NEED_TO_SAVE);
+        dataCache.setState(CacheState.NEED_TO_SAVE);
 
         printService.println("New bike was added to catalog");
         printService.println("Don't forget to save your changes into the file.\n"

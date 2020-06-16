@@ -1,7 +1,6 @@
 package com.ecobike.cache;
 
-import com.ecobike.app.annotation.Singleton;
-import com.ecobike.domain.AppState;
+import com.ecobike.domain.CacheState;
 
 import java.util.Enumeration;
 
@@ -19,9 +18,9 @@ public interface DataCache<T, E> {
 
     long size();
 
-    AppState state = AppState.NO_CHANGES;
+    CacheState state = CacheState.NO_CHANGES;
 
-    AppState getState();
+    CacheState getState();
 
-    void setState(AppState newState);
+    void setState(CacheState newState);
 }

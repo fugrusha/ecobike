@@ -2,6 +2,9 @@ package com.ecobike.service.impl;
 
 import com.ecobike.app.annotation.InjectByType;
 import com.ecobike.app.annotation.Singleton;
+import com.ecobike.cache.DataCache;
+import com.ecobike.domain.Bicycle;
+import com.ecobike.domain.CacheState;
 import com.ecobike.domain.Constants;
 import com.ecobike.handler.AddEBikeHandler;
 import com.ecobike.handler.AddFoldingBikeHandler;
@@ -12,6 +15,7 @@ import com.ecobike.service.UserInputService;
 import com.ecobike.service.WriterService;
 
 import java.nio.file.Path;
+import java.util.UUID;
 
 @Singleton
 public class UserInputServiceImpl implements UserInputService {
@@ -33,6 +37,9 @@ public class UserInputServiceImpl implements UserInputService {
 
     @InjectByType
     private WriterService writerService;
+
+    @InjectByType
+    private DataCache<UUID, Bicycle> dataCache;
 
     @Override
     public void handleUserInput(String userInput) {
@@ -63,11 +70,26 @@ public class UserInputServiceImpl implements UserInputService {
                 printService.println("File saved!");
                 break;
             case "/exit":
-                printService.println(Constants.CLOSE_APP);
-                System.exit(0);
+                if (!hasChangesInCache()) {
+                    printService.println(Constants.CLOSE_APP);
+                    System.exit(0);
+                }
                 break;
             default:
                 printService.println("I don't understand you. Please use /help to show all available commands.");
         }
+    }
+
+    private boolean hasChangesInCache() {
+        boolean returnValue = false;
+
+        if (dataCache.getState().equals(CacheState.NEED_TO_SAVE)) {
+            returnValue = true;
+
+            printService.println("Oops... You have made changes that need to be written to file!\n"
+                    + "To save changes enter /save command");
+        }
+
+        return returnValue;
     }
 }

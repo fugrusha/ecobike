@@ -1,8 +1,8 @@
 package com.ecobike.cache;
 
 import com.ecobike.app.annotation.Singleton;
-import com.ecobike.domain.AppState;
 import com.ecobike.domain.Bicycle;
+import com.ecobike.domain.CacheState;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +18,7 @@ public class DataCacheImpl implements DataCache<UUID, Bicycle> {
 
     @Setter
     @Getter
-    private AppState state = AppState.NO_CHANGES;
+    private CacheState state = CacheState.NO_CHANGES;
 
     @Override
     public void add(UUID key, Bicycle value) {
